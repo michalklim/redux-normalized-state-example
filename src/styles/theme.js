@@ -5,6 +5,7 @@ const theme = {
     secondary: '#FFFFFF',
     disabled: '#DCDCDC',
     success: 'green',
+    warning: 'orange',
   }
 }
 

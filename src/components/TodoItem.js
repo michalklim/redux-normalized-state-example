@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import T from 'prop-types'
 
-import { ACTIVE} from 'constants/TodosFilters'
+import { ACTIVE, ARCHIVED} from 'constants/TodosFilters'
 import {ms} from 'styles/helpers'
 import { todoShape } from 'constants/Shapes'
 
@@ -22,10 +22,11 @@ const Actions = styled.div`
 `
 
 const Action = styled.button`
-  padding: 0;
+  padding: 0 ${ms(-2)} 0 0;
   margin: 0;
   background: none;
   border: none;
+  font-size: ${ms(-1)};
   color: ${({theme: colors}) => colors.primary};
   cursor: pointer;
   
@@ -36,22 +37,39 @@ const Action = styled.button`
 
 const CompleteAction = styled(Action)`
   &:hover {
-    color: ${({theme: colors}) => colors.success};  
+    color: ${({theme: {colors}}) => colors.success};  
+  }
+`
+
+const DeleteAction = styled(Action)`
+  &:hover {
+    color: ${({theme: {colors}}) => colors.warning};  
   }
 `
 
 /* eslint-disable */
 
 
-function TodoItem({item: {name, isCompleted, id, status }, onComplete, onArchive}) {
+function TodoItem({item: {name, isCompleted, id, status }, onToggleComplete, onToggleArchive}) {
   return (
     <Container>
       <Name isCompleted={isCompleted}>
         {name}
       </Name>
       <Actions>
-        {!isCompleted && <CompleteAction onClick={() => onComplete(id)} >&#10004;</CompleteAction>}
-        {isCompleted && status === ACTIVE && <Action onClick={() => onArchive(id)} >&#9904;</Action>}
+        {!isCompleted && <CompleteAction onClick={() => onToggleComplete(id)} >mark as done</CompleteAction>}
+        {isCompleted && status === ACTIVE && (
+          <Fragment>
+            <Action onClick={() => onToggleArchive(id)}>archive</Action>
+            <Action onClick={() => onToggleComplete(id)}>unmark</Action>
+          </Fragment>
+        )}
+        {status === ARCHIVED && (
+          <Fragment>
+            <DeleteAction onClick={() => onToggleArchive(id)} >delete</DeleteAction>
+            <Action onClick={() => onToggleArchive(id)} >unarchive</Action>
+          </Fragment>
+        )}
       </Actions>
     </Container>
   )
@@ -59,8 +77,8 @@ function TodoItem({item: {name, isCompleted, id, status }, onComplete, onArchive
 
 TodoItem.propTypes = {
   item: todoShape.isRequired,
-  onComplete: T.func.isRequired,
-  onArchive: T.func.isRequired,
+  onToggleComplete: T.func.isRequired,
+  onToggleArchive: T.func.isRequired,
 }
 
 export default TodoItem

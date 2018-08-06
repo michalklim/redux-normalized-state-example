@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import { ACTIVE, ARCHIVED } from 'constants/TodosFilters'
 
-import { ADD_TODO, COMPLETE_TODO, ARCHIVE_TODO } from 'constants/ActionTypes'
+import { ADD_TODO, COMPLETE_TOGGLE_TODO, ARCHIVE_TOGGLE_TODO } from 'constants/ActionTypes'
 
 const todo = (state = {}, {type, payload}) => {
   switch (type) {
@@ -12,16 +12,16 @@ const todo = (state = {}, {type, payload}) => {
         ...payload
       }
     }
-    case COMPLETE_TODO: {
+    case COMPLETE_TOGGLE_TODO: {
       return {
         ...state,
-        isCompleted: true,
+        isCompleted: !state.isCompleted,
       }
     }
-    case ARCHIVE_TODO: {
+    case ARCHIVE_TOGGLE_TODO: {
       return {
         ...state,
-        status: ARCHIVED,
+        status: state.status === ACTIVE ? ARCHIVED : ACTIVE,
       }
     }
 
@@ -33,8 +33,8 @@ const todo = (state = {}, {type, payload}) => {
 const byId = (state = {}, {type, payload}) => {
   switch (type) {
     case ADD_TODO:
-    case COMPLETE_TODO:
-    case ARCHIVE_TODO: {
+    case COMPLETE_TOGGLE_TODO:
+    case ARCHIVE_TOGGLE_TODO: {
       return {
         ...state,
         [payload.id]: todo(state[payload.id], {type, payload})

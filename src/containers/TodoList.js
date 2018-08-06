@@ -14,8 +14,8 @@ class TodoList extends React.Component {
   static propTypes = {
     todos: T.arrayOf(todoShape).isRequired,
     addTodo: T.func.isRequired,
-    completeTodo: T.func.isRequired,
-    archiveTodo: T.func.isRequired,
+    toggleCompleteTodo: T.func.isRequired,
+    toggleArchiveTodo: T.func.isRequired,
   }
 
   state = {
@@ -36,12 +36,12 @@ class TodoList extends React.Component {
     e.preventDefault();
   }
 
-  handleItemComplete = id => {
-    this.props.completeTodo({id})
+  handleToggleComplete = id => {
+    this.props.toggleCompleteTodo({id})
   }
 
-  handleItemArchive = id => {
-    this.props.archiveTodo({id})
+  handleToggleArchive = id => {
+    this.props.toggleArchiveTodo({id})
   }
 
   render() {
@@ -55,7 +55,7 @@ class TodoList extends React.Component {
           <input type="text" name="name" value={todoName} onChange={this.handleInputChange} />
           <input type="submit" value="Submit" />
         </form>
-        <List items={todos} itemComponent={TodoItem} onItemComplete={this.handleItemComplete} onItemArchive={this.handleItemArchive} />
+        <List items={todos} itemComponent={TodoItem} onItemToggleComplete={this.handleToggleComplete} onItemToggleArchive={this.handleToggleArchive} />
       </div>
     )
   }
