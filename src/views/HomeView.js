@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { withRouter, NavLink, Switch, Route } from 'react-router-dom'
 import { ACTIVE, ARCHIVED } from 'constants/TodosFilters'
 import styled from 'styled-components'
+import { lighten } from 'polished'
 
 import { ms } from 'styles/helpers'
 import { ActiveTodosList, ArchivedTodosList } from 'containers'
@@ -21,6 +22,8 @@ const TodosWrapper = styled.div`
   background: ${({theme: {colors}}) => colors.secondary};
   border-radius: ${ms(-4)};
   overflow: hidden;
+  min-height: 40vh;
+  padding: 0 0 ${ms(2)} 0;
 `
 
 const Header = styled.nav`
@@ -33,11 +36,18 @@ const Tab = styled(NavLink)`
   text-decoration: none;
   text-transform: uppercase;
   text-align: center;
-  border-bottom: 1px solid ${({theme: {colors}}) => colors.disabled};
   padding: ${ms(1)} ${ms(0)} ${ms(0)};
   
   &.active {
-    color: ${({theme: {colors}}) => colors.accent}
+    color: ${({theme: {colors}}) => colors.accent};
+    font-weight: ${({theme: {typo: {weights}}}) => weights.bold};
+  }
+  
+  &:first-child:not(.active) {
+    box-shadow: inset -1px 0 5px ${({theme: {colors}}) => lighten(0.02, colors.disabled)};
+  }
+   &:last-child:not(.active) {
+    box-shadow: inset 1px 0 5px ${({theme: {colors}}) => lighten(0.02, colors.disabled)};
   }
 `
 

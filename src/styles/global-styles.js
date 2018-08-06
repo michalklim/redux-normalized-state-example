@@ -16,5 +16,8 @@ injectGlobal`
   
   body {
     background: ${theme.colors.accent};
+    color: ${theme.colors.primary};
+    font-family: ${theme.typo.fonts.primary};
+    font-weight: ${theme.typo.weights.normal};
   }
 `

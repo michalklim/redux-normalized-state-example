@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import T from 'prop-types'
 import {withRouter} from 'react-router-dom'
 
-import { List, TodoItem } from 'components'
+import { List, TodoItem, ListHeader } from 'components'
 import { ARCHIVED } from 'constants/TodosFilters'
 import * as TodosActions from 'actions/todos'
 import { getFilteredTodos } from 'reducers/todos'
@@ -29,7 +29,10 @@ class ArchivedTodoList extends React.Component {
     const { todos } = this.props
 
     return (
-      <List items={todos} itemComponent={TodoItem} onItemToggleArchive={this.handleToggleArchive} onItemDelete={this.handleDelete} />
+      <Fragment>
+        <ListHeader label="All Archived"/>
+        <List items={todos} itemComponent={TodoItem} onItemToggleArchive={this.handleToggleArchive} onItemDelete={this.handleDelete} />
+      </Fragment>
     )
   }
 }

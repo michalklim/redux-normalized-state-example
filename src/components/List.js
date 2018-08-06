@@ -1,15 +1,37 @@
 import React from 'react'
+import styled from 'styled-components'
+import { lighten } from 'polished'
 import T from 'prop-types'
 
 import { listItemShape } from 'constants/Shapes'
+import { Emoji } from 'components'
+import { ms } from 'styles/helpers'
+
+const Container = styled.ul`
+  margin: 0;
+  padding: 0;
+`
+
+const EmptyText = styled.div`
+  padding: ${ms(-1)} ${ms(2)};
+  color: ${({theme: {colors}}) => lighten(0.5, colors.accent)};
+`
 
 function List({ items, itemComponent: ItemComponent, onItemToggleComplete, onItemToggleArchive, onItemDelete }) {
   return (
-    <ul>
-      {items.map(item => (
-        <ItemComponent key={item.id} item={item} onToggleComplete={onItemToggleComplete} onToggleArchive={onItemToggleArchive} onDelete={onItemDelete} />
-      ))}
-    </ul>
+    <Container>
+      {items.length
+        ? items.map(item => (
+          <ItemComponent key={item.id} item={item} onToggleComplete={onItemToggleComplete} onToggleArchive={onItemToggleArchive} onDelete={onItemDelete} />
+        ))
+        :  (
+          <EmptyText>
+            <Emoji symbol="🤔" />
+            There are no items on this list
+          </EmptyText>
+        )
+      }
+    </Container>
   )
 }
 

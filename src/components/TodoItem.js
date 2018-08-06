@@ -1,51 +1,61 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
+import { lighten } from 'polished'
 import T from 'prop-types'
 
 import { ACTIVE, ARCHIVED} from 'constants/TodosFilters'
 import {ms} from 'styles/helpers'
 import { todoShape } from 'constants/Shapes'
+import { Emoji } from 'components'
+
+const Actions = styled.div`
+  display: flex;
+  opacity: 0;
+  transition: opacity 200ms cubic-bezier(0.55, 0.085, 0.68, 0.53);
+`
 
 const Container = styled.li`
-  padding: ${ms(0)};
+  padding: ${ms(-1)} ${ms(2)};
   display: grid;
   grid-template-columns: 1fr auto;
   grid-column-gap: ${ms(2)};
+  box-shadow: 0 1px 0 ${({theme: {colors}}) => lighten(0.02, colors.disabled)};
+  
+  &:hover {
+    box-shadow: 0 0 6px ${({theme: {colors}}) => lighten(0.01, colors.disabled)};
+  
+    ${Actions} {
+      opacity: 1;
+    }
+  }
 `
 
 const Name = styled.div`
   color: ${({isCompleted, theme: {colors}}) => isCompleted ? colors.disabled: colors.primary};
-`
-
-const Actions = styled.div`
+  text-decoration: ${({isCompleted}) => isCompleted ? 'line-through' : 'none'};
   display: flex;
+  align-items: center;
 `
 
 const Action = styled.button`
-  padding: 0 ${ms(-2)} 0 0;
+  padding: 0 ${ms(-1)} 0 0;
   margin: 0;
   background: none;
   border: none;
-  font-size: ${ms(-1)};
+  font-size: ${ms(2)};
   color: ${({theme: colors}) => colors.primary};
   cursor: pointer;
+  transition: all 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
   
   &:hover {
-    color: ${({theme: colors}) => colors.accent};  
+    transform: translateY(-4px); 
+  }
+  
+  &:nth-last-child {
+    padding: 0;
   }
 `
 
-const CompleteAction = styled(Action)`
-  &:hover {
-    color: ${({theme: {colors}}) => colors.success};  
-  }
-`
-
-const DeleteAction = styled(Action)`
-  &:hover {
-    color: ${({theme: {colors}}) => colors.warning};  
-  }
-`
 
 /* eslint-disable */
 
@@ -57,19 +67,17 @@ function TodoItem({item: {name, isCompleted, id, status }, onToggleComplete, onT
         {name}
       </Name>
       <Actions>
-        {!isCompleted && <CompleteAction onClick={() => onToggleComplete(id)} >mark as done</CompleteAction>}
+        {!isCompleted && <Action onClick={() => onToggleComplete(id)}><Emoji symbol="👍" /></Action>}
         {isCompleted && status === ACTIVE && (
           <Fragment>
-            <Action onClick={() => onToggleArchive(id)}>archive</Action>
-            <Action onClick={() => onToggleComplete(id)}>unmark</Action>
+            <Action onClick={() => onToggleComplete(id)}><Emoji symbol="👎" /></Action>
+            <Action onClick={() => onToggleArchive(id)}><Emoji symbol="📦" /></Action>
           </Fragment>
         )}
         {status === ARCHIVED && (
-          <Fragment>
-            <DeleteAction onClick={() => onDelete(id)}>delete</DeleteAction>
-            <Action onClick={() => onToggleArchive(id)}>unarchive</Action>
-          </Fragment>
+          <Action onClick={() => onToggleArchive(id)}><Emoji symbol="😰️" /></Action>
         )}
+        <Action onClick={() => onDelete(id)}><Emoji symbol="⚰️" /></Action>
       </Actions>
     </Container>
   )
