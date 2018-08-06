@@ -1,10 +1,16 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+
+import { TodoList } from 'containers'
+
+/* eslint-disable */
 
 class HomeView extends Component {
   render() {
     return (
-      <div>Hello</div>
+      <main>
+        to do app
+        <TodoList />
+      </main>
     )
   }
 }
