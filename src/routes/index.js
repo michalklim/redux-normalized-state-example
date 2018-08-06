@@ -1,18 +1,13 @@
 import React from 'react'
-import { CounterContainer } from 'containers'
-import { Header } from 'components'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import styled from 'styled-components'
 
-const Container = styled.div`text-align: center;`
+import { HomeView } from 'views'
 
 function Routes() {
   return (
     <Router>
-      <Container>
-        <Header />
-        <Route path="/" component={CounterContainer} />
-      </Container>
+      <Route path="/" component={HomeView} />
     </Router>
   )
 }
