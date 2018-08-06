@@ -1,16 +1,13 @@
 import { injectGlobal } from 'styled-components'
+import { normalize } from 'polished'
+
+import theme from './theme'
 
 /* eslint no-unused-expressions: 0 */
 injectGlobal`
-  html,
+  ${normalize()}
+  
   body {
-    height: 100%;
-    width: 100%;
-  }
-
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
+    background: ${theme.colors.accent};
   }
 `
