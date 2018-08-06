@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import T from 'prop-types'
 import uuid from 'uuid/v4'
 import {withRouter} from 'react-router-dom'
+import sortBy from 'lodash/sortBy'
 
 import { List, TodoItem } from 'components'
 import * as TodosActions from 'actions/todos'
@@ -67,7 +68,7 @@ class TodoList extends React.Component {
 }
 
 const mapStateToProps = (state, {match: {params: {todosFilter}}}) => ({
-  todos: getFilteredTodos(state, todosFilter)
+  todos: sortBy(getFilteredTodos(state, todosFilter), item => item.isCompleted)
 })
 
 function mapDispatchToProps(dispatch) {
