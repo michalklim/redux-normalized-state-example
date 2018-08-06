@@ -15,6 +15,7 @@ class TodoList extends React.Component {
     todos: T.arrayOf(todoShape).isRequired,
     addTodo: T.func.isRequired,
     completeTodo: T.func.isRequired,
+    archiveTodo: T.func.isRequired,
   }
 
   state = {
@@ -39,6 +40,10 @@ class TodoList extends React.Component {
     this.props.completeTodo({id})
   }
 
+  handleItemArchive = id => {
+    this.props.archiveTodo({id})
+  }
+
   render() {
     const { todos } = this.props
     const {todoName} = this.state
@@ -50,7 +55,7 @@ class TodoList extends React.Component {
           <input type="text" name="name" value={todoName} onChange={this.handleInputChange} />
           <input type="submit" value="Submit" />
         </form>
-        <List items={todos} itemComponent={TodoItem} onItemComplete={this.handleItemComplete} />
+        <List items={todos} itemComponent={TodoItem} onItemComplete={this.handleItemComplete} onItemArchive={this.handleItemArchive} />
       </div>
     )
   }

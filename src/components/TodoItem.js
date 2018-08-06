@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import T from 'prop-types'
 
-import { ACTIVE, ARCHIVED } from 'constants/TodosFilters'
+import { ACTIVE} from 'constants/TodosFilters'
 import {ms} from 'styles/helpers'
 import { todoShape } from 'constants/Shapes'
 
@@ -28,6 +28,10 @@ const Action = styled.button`
   border: none;
   color: ${({theme: colors}) => colors.primary};
   cursor: pointer;
+  
+  &:hover {
+    color: ${({theme: colors}) => colors.accent};  
+  }
 `
 
 const CompleteAction = styled(Action)`
@@ -36,15 +40,10 @@ const CompleteAction = styled(Action)`
   }
 `
 
-const DeleteAction = styled(Action)`
-  &:hover {
-    color: ${({theme: colors}) => colors.warning};  
-  }
-`
 /* eslint-disable */
 
 
-function TodoItem({item: {name, isCompleted, id, status }, onComplete}) {
+function TodoItem({item: {name, isCompleted, id, status }, onComplete, onArchive}) {
   return (
     <Container>
       <Name isCompleted={isCompleted}>
@@ -52,7 +51,7 @@ function TodoItem({item: {name, isCompleted, id, status }, onComplete}) {
       </Name>
       <Actions>
         {!isCompleted && <CompleteAction onClick={() => onComplete(id)} >&#10004;</CompleteAction>}
-        {isCompleted && status === ACTIVE && <Action onClick={() => onComplete(id)} >&#10004;</Action>}
+        {isCompleted && status === ACTIVE && <Action onClick={() => onArchive(id)} >&#9904;</Action>}
       </Actions>
     </Container>
   )
@@ -60,7 +59,8 @@ function TodoItem({item: {name, isCompleted, id, status }, onComplete}) {
 
 TodoItem.propTypes = {
   item: todoShape.isRequired,
-  onItemComplete: T.func.isRequired,
+  onComplete: T.func.isRequired,
+  onArchive: T.func.isRequired,
 }
 
 export default TodoItem
