@@ -3,11 +3,11 @@ import T from 'prop-types'
 
 import { listItemShape } from 'constants/Shapes'
 
-function List({ items, itemComponent: ItemComponent }) {
+function List({ items, itemComponent: ItemComponent, onItemComplete }) {
   return (
     <ul>
       {items.map(item => (
-        <ItemComponent key={item.id} item={item} />
+        <ItemComponent key={item.id} item={item} onComplete={onItemComplete} />
       ))}
     </ul>
   )
@@ -16,6 +16,7 @@ function List({ items, itemComponent: ItemComponent }) {
 List.propTypes = {
   items: T.arrayOf(listItemShape).isRequired,
   itemComponent: T.element.isRequired,
+  onItemComplete: T.func.isRequired,
 }
 
 export default List
