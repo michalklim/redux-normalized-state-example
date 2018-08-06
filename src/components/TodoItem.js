@@ -50,7 +50,7 @@ const DeleteAction = styled(Action)`
 /* eslint-disable */
 
 
-function TodoItem({item: {name, isCompleted, id, status }, onToggleComplete, onToggleArchive}) {
+function TodoItem({item: {name, isCompleted, id, status }, onToggleComplete, onToggleArchive, onDelete}) {
   return (
     <Container>
       <Name isCompleted={isCompleted}>
@@ -66,8 +66,8 @@ function TodoItem({item: {name, isCompleted, id, status }, onToggleComplete, onT
         )}
         {status === ARCHIVED && (
           <Fragment>
-            <DeleteAction onClick={() => onToggleArchive(id)} >delete</DeleteAction>
-            <Action onClick={() => onToggleArchive(id)} >unarchive</Action>
+            <DeleteAction onClick={() => onDelete(id)}>delete</DeleteAction>
+            <Action onClick={() => onToggleArchive(id)}>unarchive</Action>
           </Fragment>
         )}
       </Actions>
@@ -79,6 +79,7 @@ TodoItem.propTypes = {
   item: todoShape.isRequired,
   onToggleComplete: T.func.isRequired,
   onToggleArchive: T.func.isRequired,
+  onDelete: T.func.isRequired,
 }
 
 export default TodoItem

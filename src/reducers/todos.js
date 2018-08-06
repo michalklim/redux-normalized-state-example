@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import { ACTIVE, ARCHIVED } from 'constants/TodosFilters'
 
-import { ADD_TODO, COMPLETE_TOGGLE_TODO, ARCHIVE_TOGGLE_TODO } from 'constants/ActionTypes'
+import { ADD_TODO, DELETE_TODO, COMPLETE_TOGGLE_TODO, ARCHIVE_TOGGLE_TODO } from 'constants/ActionTypes'
 
 const todo = (state = {}, {type, payload}) => {
   switch (type) {
@@ -40,6 +40,15 @@ const byId = (state = {}, {type, payload}) => {
         [payload.id]: todo(state[payload.id], {type, payload})
       }
     }
+    case DELETE_TODO: {
+      return Object.keys(state).reduce((acc, key) => {
+        if (key !== payload.id) {
+          acc[key] = state[key]
+        }
+
+        return acc
+      }, {})
+    }
     default:
       return state
   }
@@ -50,14 +59,17 @@ const allIds = (state = [], {type, payload}) => {
     case ADD_TODO: {
       return [payload.id, ...state]
     }
+    case DELETE_TODO: {
+      return state.filter(id => id !== payload.id)
+    }
     default:
       return state
   }
 }
 
 const todos = combineReducers({
+  allIds,
   byId,
-  allIds
 })
 
 export const getFilteredTodos = (state, filter) => {

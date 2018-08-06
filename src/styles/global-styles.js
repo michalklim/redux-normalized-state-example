@@ -7,6 +7,13 @@ import theme from './theme'
 injectGlobal`
   ${normalize()}
   
+  html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+  
   body {
     background: ${theme.colors.accent};
   }
