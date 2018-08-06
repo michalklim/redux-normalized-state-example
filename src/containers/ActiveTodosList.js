@@ -1,21 +1,19 @@
-import React from 'react'
-import { bindActionCreators, compose } from 'redux'
+import React, {Component, Fragment} from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import T from 'prop-types'
 import uuid from 'uuid/v4'
-import {withRouter} from 'react-router-dom'
-import sortBy from 'lodash/sortBy'
 
 import { List, TodoItem } from 'components'
 import * as TodosActions from 'actions/todos'
-import { getFilteredTodos } from 'reducers/todos'
+import { getCompletedTodos, getUncompletedTodos } from 'reducers/todos'
 import { todoShape } from 'constants/Shapes'
 
-class TodoList extends React.Component {
+class ActiveTodosList extends Component {
   static propTypes = {
-    todos: T.arrayOf(todoShape).isRequired,
+    uncompletedTodos: T.arrayOf(todoShape).isRequired,
+    completedTodos: T.arrayOf(todoShape).isRequired,
     addTodo: T.func.isRequired,
-    deleteTodo: T.func.isRequired,
     toggleCompleteTodo: T.func.isRequired,
     toggleArchiveTodo: T.func.isRequired,
   }
@@ -46,33 +44,34 @@ class TodoList extends React.Component {
     this.props.toggleArchiveTodo({id})
   }
 
-  handleDelete = id => {
-    this.props.deleteTodo({id})
-  }
-
   render() {
-    const { todos } = this.props
+    const { uncompletedTodos, completedTodos } = this.props
     const {todoName} = this.state
 
     return (
-      <div>
-        <List items={todos} itemComponent={TodoItem} onItemToggleComplete={this.handleToggleComplete} onItemToggleArchive={this.handleToggleArchive} onItemDelete={this.handleDelete} />
+      <Fragment>
+        uncompleted
+        <List items={uncompletedTodos} itemComponent={TodoItem} onItemToggleComplete={this.handleToggleComplete} onItemToggleArchive={this.handleToggleArchive} />
         <form onSubmit={this.handleSubmit}>
 
           <input type="text" name="name" value={todoName} onChange={this.handleInputChange} />
           <input type="submit" value="Submit" />
         </form>
-      </div>
+
+        completed
+        <List items={completedTodos} itemComponent={TodoItem} onItemToggleComplete={this.handleToggleComplete} onItemToggleArchive={this.handleToggleArchive}/>
+      </Fragment>
     )
   }
 }
 
-const mapStateToProps = (state, {match: {params: {todosFilter}}}) => ({
-  todos: sortBy(getFilteredTodos(state, todosFilter), item => item.isCompleted)
+const mapStateToProps = (state) => ({
+  uncompletedTodos: getUncompletedTodos(state),
+  completedTodos: getCompletedTodos(state)
 })
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(TodosActions, dispatch)
 }
 
-export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(TodoList)
+export default connect(mapStateToProps, mapDispatchToProps)(ActiveTodosList)

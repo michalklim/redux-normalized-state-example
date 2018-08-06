@@ -16,9 +16,15 @@ function List({ items, itemComponent: ItemComponent, onItemToggleComplete, onIte
 List.propTypes = {
   items: T.arrayOf(listItemShape).isRequired,
   itemComponent: T.element.isRequired,
-  onItemToggleComplete: T.func.isRequired,
-  onItemToggleArchive: T.func.isRequired,
-  onItemDelete: T.func.isRequired,
+  onItemToggleComplete: T.func,
+  onItemToggleArchive: T.func,
+  onItemDelete: T.func,
+}
+
+List.defaultProps = {
+  onItemToggleComplete: () => {},
+  onItemToggleArchive: () => {},
+  onItemDelete: () => {},
 }
 
 export default List

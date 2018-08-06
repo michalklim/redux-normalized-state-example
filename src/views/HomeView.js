@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-import { ACTIVE } from 'constants/TodosFilters'
+import { withRouter, NavLink, Switch, Route } from 'react-router-dom'
+import { ACTIVE, ARCHIVED } from 'constants/TodosFilters'
 import styled from 'styled-components'
 
 import { ms } from 'styles/helpers'
-import { TodoList } from 'containers'
+import { ActiveTodosList, ArchivedTodosList } from 'containers'
 import { historyShape, matchShape } from 'constants/Shapes'
 
 const Container = styled.main`
@@ -19,8 +19,26 @@ const Container = styled.main`
 const TodosWrapper = styled.div`
   width: 30%;
   background: ${({theme: {colors}}) => colors.secondary};
-  padding: ${ms(2)};
   border-radius: ${ms(-4)};
+  overflow: hidden;
+`
+
+const Header = styled.nav`
+  display: grid;
+  grid-template-columns: 50% 50%;
+`
+
+const Tab = styled(NavLink)`
+  color: ${({theme: {colors}}) => colors.disabled};
+  text-decoration: none;
+  text-transform: uppercase;
+  text-align: center;
+  border-bottom: 1px solid ${({theme: {colors}}) => colors.disabled};
+  padding: ${ms(1)} ${ms(0)} ${ms(0)};
+  
+  &.active {
+    color: ${({theme: {colors}}) => colors.accent}
+  }
 `
 
 class HomeView extends Component {
@@ -41,7 +59,14 @@ class HomeView extends Component {
     return (
       <Container>
         <TodosWrapper>
-          <TodoList />
+          <Header>
+            <Tab to={`/${ACTIVE}`} exact>Active</Tab>
+            <Tab to={`/${ARCHIVED}`} exact>Archived</Tab>
+          </Header>
+          <Switch>
+            <Route path={`/${ACTIVE}`} exact component={ActiveTodosList} />
+            <Route path={`/${ARCHIVED}`} exact component={ArchivedTodosList} />
+          </Switch>
         </TodosWrapper>
       </Container>
     )

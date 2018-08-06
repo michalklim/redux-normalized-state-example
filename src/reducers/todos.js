@@ -72,10 +72,19 @@ const todos = combineReducers({
   byId,
 })
 
-export const getFilteredTodos = (state, filter) => {
-  const allTodos = state.todos.allIds.map(id => state.todos.byId[id])
+const getAllTodos = state => state.todos.allIds.map(id => state.todos.byId[id])
 
-  return allTodos.filter(singleTodo => singleTodo.status === filter)
-}
+export const getFilteredTodos = (state, filter) =>
+  getAllTodos(state)
+  .filter(singleTodo => singleTodo.status === filter)
+
+export const getUncompletedTodos = (state, filter = ACTIVE) =>
+  getFilteredTodos(state, filter)
+    .filter(filteredTodo => !filteredTodo.isCompleted)
+
+
+export const getCompletedTodos = (state, filter = ACTIVE) =>
+  getFilteredTodos(state, filter)
+    .filter(filteredTodo => filteredTodo.isCompleted)
 
 export default todos

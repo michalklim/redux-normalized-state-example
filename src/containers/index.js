@@ -1,1 +1,2 @@
-export { default as TodoList} from './TodoList'
+export { default as ActiveTodosList} from './ActiveTodosList'
+export { default as ArchivedTodosList} from './ArchivedTodosList'

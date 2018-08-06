@@ -7,7 +7,7 @@ function Routes() {
   return (
     <Router>
       <Switch>
-        <Route path="/:todosFilter?" exact component={HomeView} />
+        <Route path="/" component={HomeView} />
       </Switch>
     </Router>
   )
