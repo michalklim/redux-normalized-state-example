@@ -33,10 +33,14 @@ const Filter = styled.button`
   cursor: pointer;
 `
 
+const ALL = 'all'
+const COMPLETED = 'completed'
+const UNCOMPLETED = 'uncompleted'
+
 const filters = {
-  ALL: 'all',
-  COMPLETED: 'completed',
-  UNCOMPLETED: 'uncompleted'
+  [ALL]: 'All',
+  [COMPLETED]: 'Completed',
+  [UNCOMPLETED]: 'Uncompleted'
 }
 
 class ActiveTodosView extends Component {
@@ -47,7 +51,7 @@ class ActiveTodosView extends Component {
   }
 
   state = {
-    filter: filters.ALL,
+    filter: ALL,
   }
 
   handleAddTodo = name => {
@@ -70,19 +74,19 @@ class ActiveTodosView extends Component {
       <Fragment>
         <Filters>
           Filters:
-          <Filter isActive={filter === filters.ALL} onClick={() => this.handleFilter(filters.ALL)}>All</Filter>
-          <Filter isActive={filter === filters.UNCOMPLETED} onClick={() => this.handleFilter(filters.UNCOMPLETED)}>Uncompleted</Filter>
-          <Filter isActive={filter === filters.COMPLETED} onClick={() => this.handleFilter(filters.COMPLETED)}>Completed</Filter>
+          {Object.keys(filters).map(filterKey => (
+            <Filter key={filterKey} isActive={filter === filterKey} onClick={() => this.handleFilter(filterKey)}>{filters[filterKey]}</Filter>
+          ))}
         </Filters>
 
-        {(filter === filters.UNCOMPLETED || filter === filters.ALL) && (
+        {(filter === UNCOMPLETED || filter === ALL) && (
          <Fragment>
            <ListHeader label="Uncompleted" />
            <UncompletedTodosList items={uncompletedTodos} />
            <AddTodoForm onAddTodo={this.handleAddTodo} />
          </Fragment>
         )}
-        {(filter === filters.COMPLETED || filter === filters.ALL) && (
+        {(filter === COMPLETED || filter === ALL) && (
           <Fragment>
             <ListHeader label="Completed" />
             <CompletedTodosList items={completedTodos}/>
