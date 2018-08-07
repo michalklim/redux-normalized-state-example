@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 
 import { ACTIVE, ARCHIVED } from 'constants/TodosFilters'
-import { ADD_TODO, DELETE_TODO, COMPLETE_TOGGLE_TODO, ARCHIVE_TOGGLE_TODO } from 'constants/ActionTypes'
+import { ADD_TODO, DELETE_TODO, COMPLETE_TOGGLE_TODO, ARCHIVE_TOGGLE_TODO, SEARCH_TODO } from 'constants/ActionTypes'
 
 const todo = (state = {}, {type, payload}) => {
   switch (type) {
@@ -67,12 +67,23 @@ const allIds = (state = [], {type, payload}) => {
   }
 }
 
+const searchedIds = (state = [], {type, payload}) => {
+  switch (type) {
+    case SEARCH_TODO: {
+      return [...payload]
+    }
+    default:
+      return state
+  }
+}
+
 const todos = combineReducers({
   allIds,
+  searchedIds,
   byId,
 })
 
-const getAllTodos = state => state.todos.allIds.map(id => state.todos.byId[id])
+export const getAllTodos = state => state.todos.allIds.map(id => state.todos.byId[id])
 
 export const getFilteredTodos = (state, filter) =>
   getAllTodos(state)
@@ -82,9 +93,10 @@ export const getUncompletedTodos = (state, filter = ACTIVE) =>
   getFilteredTodos(state, filter)
     .filter(filteredTodo => !filteredTodo.isCompleted)
 
-
 export const getCompletedTodos = (state, filter = ACTIVE) =>
   getFilteredTodos(state, filter)
     .filter(filteredTodo => filteredTodo.isCompleted)
+
+export const getSearchedTodos = state => state.todos.searchedIds.map(id => state.todos.byId[id])
 
 export default todos

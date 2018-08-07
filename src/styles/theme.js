@@ -5,7 +5,7 @@ const theme = {
     accent: '#002fa7',
     primary: '#505050',
     secondary: '#FFFFFF',
-    disabled: '#DCDCDC',
+    disabled: '#D3D3D3',
   },
   typo: {
     fonts: {

@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { lighten } from 'polished'
 import T from 'prop-types'
 
 import { listItemShape } from 'constants/Shapes'
@@ -14,7 +13,6 @@ const Container = styled.ul`
 
 const EmptyText = styled.div`
   padding: ${ms(-1)} ${ms(2)};
-  color: ${({theme: {colors}}) => lighten(0.5, colors.accent)};
 `
 
 function List({ items, itemComponent: ItemComponent, onItemToggleComplete, onItemToggleArchive, onItemDelete }) {

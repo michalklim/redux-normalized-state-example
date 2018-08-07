@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { lighten } from 'polished'
 
 import { ms } from 'styles/helpers'
-import { ActiveTodosList, ArchivedTodosList } from 'containers'
+import { ActiveTodosList, ArchivedTodosList, SearchForm, SearchTodosList } from 'containers'
 import { historyShape, matchShape } from 'constants/Shapes'
 
 const Container = styled.main`
@@ -65,17 +65,23 @@ class HomeView extends Component {
     }
   }
 
+
+
   render() {
     return (
       <Container>
         <TodosWrapper>
+          <SearchForm onSearchStart={this.handleSearchStart} onSearchEnd={this.handleSearchEnd} />
+
           <Header>
             <Tab to={`/${ACTIVE}`} exact>Active</Tab>
             <Tab to={`/${ARCHIVED}`} exact>Archived</Tab>
           </Header>
+
           <Switch>
             <Route path={`/${ACTIVE}`} exact component={ActiveTodosList} />
             <Route path={`/${ARCHIVED}`} exact component={ArchivedTodosList} />
+            <Route path={`/search`} exact component={SearchTodosList} />
           </Switch>
         </TodosWrapper>
       </Container>
