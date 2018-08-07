@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { lighten } from 'polished'
 import T from 'prop-types'
 
-import { ACTIVE, ARCHIVED} from 'constants/TodosFilters'
+import { ACTIVE, ARCHIVED} from 'constants/TodosStatuses'
 import {ms} from 'styles/helpers'
 import { todoShape } from 'constants/Shapes'
 import { Emoji, EditTodoForm } from 'components'

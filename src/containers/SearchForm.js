@@ -13,7 +13,7 @@ import {ms} from 'styles/helpers'
 import { getAllTodos } from 'reducers/todos'
 import * as TodosActions from 'actions/todos'
 
-const InputWrapper = styled.div`
+const InputWrapper = styled.form`
   padding: ${ms(-1)} ${ms(2)};
  box-shadow: 0 1px 0 ${({theme: {colors}}) => lighten(0.02, colors.disabled)};
 `
@@ -75,10 +75,14 @@ class SearchForm extends Component {
     this.search()
   }
 
+  handleSubmit = e => {
+    e.preventDefault();
+  }
+
   render() {
     const {query} = this.state
     return (
-      <InputWrapper>
+      <InputWrapper onSubmit={this.handleSubmit}>
         <Input type="text" name="name" placeholder="🔍 Search...‍" value={query} onChange={this.handleInputChange}/>
       </InputWrapper>
     )

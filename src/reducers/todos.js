@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 
-import { ACTIVE, ARCHIVED } from 'constants/TodosFilters'
+import { ACTIVE, ARCHIVED } from 'constants/TodosStatuses'
 import { ADD_TODO, DELETE_TODO, COMPLETE_TOGGLE_TODO, ARCHIVE_TOGGLE_TODO, SEARCH_TODO, EDIT_TODO } from 'constants/ActionTypes'
 
 const todo = (state = {}, {type, payload}) => {
@@ -92,9 +92,9 @@ const todos = combineReducers({
 
 export const getAllTodos = state => state.todos.allIds.map(id => state.todos.byId[id])
 
-export const getFilteredTodos = (state, filter) =>
+export const getFilteredTodos = (state, status) =>
   getAllTodos(state)
-  .filter(singleTodo => singleTodo.status === filter)
+  .filter(singleTodo => singleTodo.status === status)
 
 export const getUncompletedTodos = (state, filter = ACTIVE) =>
   getFilteredTodos(state, filter)

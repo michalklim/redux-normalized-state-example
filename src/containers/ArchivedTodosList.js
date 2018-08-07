@@ -5,7 +5,7 @@ import T from 'prop-types'
 import {withRouter} from 'react-router-dom'
 
 import { List, TodoItem, ListHeader } from 'components'
-import { ARCHIVED } from 'constants/TodosFilters'
+import { ARCHIVED } from 'constants/TodosStatuses'
 import * as TodosActions from 'actions/todos'
 import { getFilteredTodos } from 'reducers/todos'
 import { todoShape } from 'constants/Shapes'

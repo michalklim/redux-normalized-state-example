@@ -1,5 +1,5 @@
 import T from 'prop-types'
-import {ARCHIVED, ACTIVE} from 'constants/TodosFilters'
+import {ARCHIVED, ACTIVE} from 'constants/TodosStatuses'
 
 export const listItemShape = T.shape({
   id: T.string.isRequired,

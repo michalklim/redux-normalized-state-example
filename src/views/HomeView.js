@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter, NavLink, Switch, Route } from 'react-router-dom'
-import { ACTIVE, ARCHIVED } from 'constants/TodosFilters'
+import { ACTIVE, ARCHIVED } from 'constants/TodosStatuses'
 import styled from 'styled-components'
 import { lighten } from 'polished'
 
@@ -65,13 +65,11 @@ class HomeView extends Component {
     }
   }
 
-
-
   render() {
     return (
       <Container>
         <TodosWrapper>
-          <SearchForm onSearchStart={this.handleSearchStart} onSearchEnd={this.handleSearchEnd} />
+          <SearchForm />
 
           <Header>
             <Tab to={`/${ACTIVE}`} exact>Active</Tab>

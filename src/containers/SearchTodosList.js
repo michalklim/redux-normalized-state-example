@@ -5,7 +5,7 @@ import T from 'prop-types'
 import {withRouter} from 'react-router-dom'
 
 import { List, TodoItem, ListHeader } from 'components'
-import { ACTIVE, ARCHIVED } from 'constants/TodosFilters'
+import { ACTIVE, ARCHIVED } from 'constants/TodosStatuses'
 import * as TodosActions from 'actions/todos'
 import { getSearchedTodos } from 'reducers/todos'
 import { todoShape } from 'constants/Shapes'
@@ -43,7 +43,7 @@ class SearchTodosList extends React.Component {
     return (
       <Fragment>
         <ListHeader label="Uncompleted"/>
-        <List items={uncompletedTodos} itemComponent={TodoItem} onItemDelete={this.handleDelete} onItemToggleComplete={this.handleToggleComplete} onItemEdit={this.handleItemEdit()} />
+        <List items={uncompletedTodos} itemComponent={TodoItem} onItemDelete={this.handleDelete} onItemToggleComplete={this.handleToggleComplete} onItemEdit={this.handleItemEdit} />
 
         <ListHeader label="Completed"/>
         <List items={completedTodos} itemComponent={TodoItem} onItemToggleArchive={this.handleToggleArchive} onItemDelete={this.handleDelete} onItemToggleComplete={this.handleToggleComplete} />
