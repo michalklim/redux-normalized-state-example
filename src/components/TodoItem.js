@@ -10,8 +10,11 @@ import { Emoji, EditTodoForm } from 'components'
 
 const Actions = styled.div`
   display: flex;
-  opacity: 0;
   transition: opacity 200ms cubic-bezier(0.55, 0.085, 0.68, 0.53);
+  
+  @media (min-width: ${({theme: {mq}}) => `${mq.l}px`}) {
+     opacity: 0;
+  }
 `
 
 const Action = styled.button`
@@ -35,8 +38,11 @@ const Action = styled.button`
 
 const EditAction = styled(Action)`
   padding: 0 0 0 ${ms(-1)};
-  opacity: 0;
   transition: all 200ms cubic-bezier(0.55, 0.085, 0.68, 0.53);
+  
+  @media (min-width: ${({theme: {mq}}) => `${mq.l}px`}) {
+     opacity: 0;
+  }
 `
 
 const Container = styled.li`

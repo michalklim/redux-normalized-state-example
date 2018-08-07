@@ -19,7 +19,6 @@ const Container = styled.main`
 `
 
 const TodosWrapper = styled.div`
-  width: 30%;
   background: ${({theme: {colors}}) => colors.secondary};
   border-radius: ${ms(-4)};
   overflow: hidden;
@@ -52,6 +51,29 @@ const Tab = styled(NavLink)`
   }
 `
 
+const Title = styled.h1`
+  color: ${({theme: {colors}}) => lighten(0.1, colors.accent)};
+  font-weight: ${({theme: {typo: {weights}}}) => weights.normal};
+  text-align: center;
+  margin: ${ms(2)} 0 ${ms(4)} 0;
+`
+
+const Wrapper = styled.div`
+  width: 100%;
+  
+  @media (min-width: ${({theme: {mq}}) => `${mq.s}px`}) {
+     width: 80%;
+  }
+  
+  @media (min-width: ${({theme: {mq}}) => `${mq.m}px`}) {
+     width: 50%;
+  }
+  
+  @media (min-width: ${({theme: {mq}}) => `${mq.l}px`}}) {
+     width: 40%;
+  }
+`
+
 class HomeView extends Component {
   static propTypes = {
     history: historyShape.isRequired,
@@ -69,20 +91,23 @@ class HomeView extends Component {
   render() {
     return (
       <Container>
-        <TodosWrapper>
-          <SearchForm />
+        <Wrapper>
+          <Title>Venture Devs Todo app</Title>
+          <TodosWrapper>
+            <SearchForm />
 
-          <Header>
-            <Tab to={`/${ACTIVE}`} exact>Active</Tab>
-            <Tab to={`/${ARCHIVED}`} exact>Archived</Tab>
-          </Header>
+            <Header>
+              <Tab to={`/${ACTIVE}`} exact>Active</Tab>
+              <Tab to={`/${ARCHIVED}`} exact>Archived</Tab>
+            </Header>
 
-          <Switch>
-            <Route path={`/${ACTIVE}`} exact component={ActiveTodosView} />
-            <Route path={`/${ARCHIVED}`} exact component={ArchivedTodosView} />
-            <Route path={`/search`} exact component={SearchTodosView} />
-          </Switch>
-        </TodosWrapper>
+            <Switch>
+              <Route path={`/${ACTIVE}`} exact component={ActiveTodosView} />
+              <Route path={`/${ARCHIVED}`} exact component={ArchivedTodosView} />
+              <Route path={`/search`} exact component={SearchTodosView} />
+            </Switch>
+          </TodosWrapper>
+        </Wrapper>
       </Container>
     )
   }

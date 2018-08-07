@@ -15,6 +15,11 @@ const theme = {
       normal: 400,
       bold: 700,
     }
+  },
+  mq: {
+    s: 768,
+    m: 1024,
+    l: 1440,
   }
 }
 
