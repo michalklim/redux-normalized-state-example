@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, Component } from 'react'
 import styled from 'styled-components'
 import { lighten } from 'polished'
 import T from 'prop-types'
@@ -6,12 +6,37 @@ import T from 'prop-types'
 import { ACTIVE, ARCHIVED} from 'constants/TodosFilters'
 import {ms} from 'styles/helpers'
 import { todoShape } from 'constants/Shapes'
-import { Emoji } from 'components'
+import { Emoji, EditTodoForm } from 'components'
 
 const Actions = styled.div`
   display: flex;
   opacity: 0;
   transition: opacity 200ms cubic-bezier(0.55, 0.085, 0.68, 0.53);
+`
+
+const Action = styled.button`
+  padding: 0 ${ms(-1)} 0 0;
+  margin: 0;
+  background: none;
+  border: none;
+  font-size: ${ms(2)};
+  color: ${({theme: colors}) => colors.primary};
+  cursor: pointer;
+  transition: transform 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  
+  &:hover {
+    transform: translateY(-4px); 
+  }
+  
+  &:nth-last-child {
+    padding: 0;
+  }
+`
+
+const EditAction = styled(Action)`
+  padding: 0 0 0 ${ms(-1)};
+  opacity: 0;
+  transition: all 200ms cubic-bezier(0.55, 0.085, 0.68, 0.53);
 `
 
 const Container = styled.li`
@@ -27,6 +52,10 @@ const Container = styled.li`
     ${Actions} {
       opacity: 1;
     }
+    
+     ${EditAction} {
+      opacity: 1;
+    }
   }
 `
 
@@ -37,50 +66,53 @@ const Name = styled.div`
   align-items: center;
 `
 
-const Action = styled.button`
-  padding: 0 ${ms(-1)} 0 0;
-  margin: 0;
-  background: none;
-  border: none;
-  font-size: ${ms(2)};
-  color: ${({theme: colors}) => colors.primary};
-  cursor: pointer;
-  transition: all 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  
-  &:hover {
-    transform: translateY(-4px); 
+class TodoItem extends Component {
+  state = {
+    isEditing: false
   }
-  
-  &:nth-last-child {
-    padding: 0;
+
+  handleEdit = () => {
+    this.setState({
+      isEditing: true
+    })
   }
-`
 
+  handleSubmitEdit = newName => {
+    this.props.onEdit(this.props.item.id, newName)
+    this.setState({
+      isEditing: false,
+    })
+  }
 
-/* eslint-disable */
+  render() {
+    const {item: {name, isCompleted, id, status }, onToggleComplete, onToggleArchive, onDelete} = this.props
+    const { isEditing }  = this.state
 
-
-function TodoItem({item: {name, isCompleted, id, status }, onToggleComplete, onToggleArchive, onDelete}) {
-  return (
-    <Container>
-      <Name isCompleted={isCompleted}>
-        {name}
-      </Name>
-      <Actions>
-        {!isCompleted && <Action onClick={() => onToggleComplete(id)}><Emoji symbol="👍" /></Action>}
-        {isCompleted && status === ACTIVE && (
-          <Fragment>
-            <Action onClick={() => onToggleComplete(id)}><Emoji symbol="👎" /></Action>
-            <Action onClick={() => onToggleArchive(id)}><Emoji symbol="📦" /></Action>
-          </Fragment>
-        )}
-        {status === ARCHIVED && (
-          <Action onClick={() => onToggleArchive(id)}><Emoji symbol="😰️" /></Action>
-        )}
-        <Action onClick={() => onDelete(id)}><Emoji symbol="⚰️" /></Action>
-      </Actions>
-    </Container>
-  )
+    return (
+      <Container>
+        <Name isCompleted={isCompleted}>
+          {isEditing
+            ? (<EditTodoForm onEditTodo={this.handleSubmitEdit} todoName={name} />)
+            : name
+          }
+          {!isEditing && !isCompleted && <EditAction onClick={this.handleEdit}><Emoji symbol="🖊️" /></EditAction>}
+        </Name>
+        <Actions>
+          {!isCompleted && <Action onClick={() => onToggleComplete(id)}><Emoji symbol="👍" /></Action>}
+          {isCompleted && status === ACTIVE && (
+            <Fragment>
+              <Action onClick={() => onToggleComplete(id)}><Emoji symbol="👎" /></Action>
+              <Action onClick={() => onToggleArchive(id)}><Emoji symbol="📦" /></Action>
+            </Fragment>
+          )}
+          {status === ARCHIVED && (
+            <Action onClick={() => onToggleArchive(id)}><Emoji symbol="😰️" /></Action>
+          )}
+          <Action onClick={() => onDelete(id)}><Emoji symbol="⚰️" /></Action>
+        </Actions>
+      </Container>
+    )
+  }
 }
 
 TodoItem.propTypes = {
@@ -88,6 +120,7 @@ TodoItem.propTypes = {
   onToggleComplete: T.func.isRequired,
   onToggleArchive: T.func.isRequired,
   onDelete: T.func.isRequired,
+  onEdit: T.func.isRequired,
 }
 
 export default TodoItem

@@ -15,12 +15,12 @@ const EmptyText = styled.div`
   padding: ${ms(-1)} ${ms(2)};
 `
 
-function List({ items, itemComponent: ItemComponent, onItemToggleComplete, onItemToggleArchive, onItemDelete }) {
+function List({ items, itemComponent: ItemComponent, onItemToggleComplete, onItemToggleArchive, onItemDelete, onItemEdit }) {
   return (
     <Container>
       {items.length
         ? items.map(item => (
-          <ItemComponent key={item.id} item={item} onToggleComplete={onItemToggleComplete} onToggleArchive={onItemToggleArchive} onDelete={onItemDelete} />
+          <ItemComponent key={item.id} item={item} onToggleComplete={onItemToggleComplete} onToggleArchive={onItemToggleArchive} onDelete={onItemDelete} onEdit={onItemEdit} />
         ))
         :  (
           <EmptyText>
@@ -39,12 +39,14 @@ List.propTypes = {
   onItemToggleComplete: T.func,
   onItemToggleArchive: T.func,
   onItemDelete: T.func,
+  onItemEdit: T.func,
 }
 
 List.defaultProps = {
   onItemToggleComplete: () => {},
   onItemToggleArchive: () => {},
   onItemDelete: () => {},
+  onItemEdit: () => {}
 }
 
 export default List

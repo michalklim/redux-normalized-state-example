@@ -15,6 +15,7 @@ class ActiveTodosList extends Component {
     completedTodos: T.arrayOf(todoShape).isRequired,
     addTodo: T.func.isRequired,
     deleteTodo: T.func.isRequired,
+    editTodo: T.func.isRequired,
     toggleCompleteTodo: T.func.isRequired,
     toggleArchiveTodo: T.func.isRequired,
   }
@@ -38,13 +39,17 @@ class ActiveTodosList extends Component {
     this.props.deleteTodo({id})
   }
 
+  handleItemEdit = (id, newName) => {
+    this.props.editTodo({id, newName})
+  }
+
   render() {
     const { uncompletedTodos, completedTodos } = this.props
 
     return (
       <Fragment>
         <ListHeader label="Uncompleted" />
-        <List items={uncompletedTodos} itemComponent={TodoItem} onItemToggleComplete={this.handleToggleComplete} onItemDelete={this.handleItemDelete} />
+        <List items={uncompletedTodos} itemComponent={TodoItem} onItemToggleComplete={this.handleToggleComplete} onItemDelete={this.handleItemDelete} onItemEdit={this.handleItemEdit} />
         <AddTodoForm onAddTodo={this.handleAddTodo} />
 
         <ListHeader label="Completed" />

@@ -40,6 +40,7 @@ class SearchForm extends Component {
 
   componentDidUpdate = prevProps => {
     if(prevProps.location.pathname === '/search' && this.props.location.pathname !== '/search') {
+      // Reset search
       this.setState({
         query: '',
         isSearching: false

@@ -16,6 +16,7 @@ class SearchTodosList extends React.Component {
     completedTodos: T.arrayOf(todoShape).isRequired,
     archivedTodos: T.arrayOf(todoShape).isRequired,
     deleteTodo: T.func.isRequired,
+    editTodo: T.func.isRequired,
     toggleCompleteTodo: T.func.isRequired,
     toggleArchiveTodo: T.func.isRequired,
   }
@@ -32,13 +33,17 @@ class SearchTodosList extends React.Component {
     this.props.toggleCompleteTodo({id})
   }
 
+  handleItemEdit = (id, newName) => {
+    this.props.editTodo({id, newName})
+  }
+
   render() {
     const { uncompletedTodos, completedTodos, archivedTodos } = this.props
 
     return (
       <Fragment>
         <ListHeader label="Uncompleted"/>
-        <List items={uncompletedTodos} itemComponent={TodoItem} onItemDelete={this.handleDelete} onItemToggleComplete={this.handleToggleComplete} />
+        <List items={uncompletedTodos} itemComponent={TodoItem} onItemDelete={this.handleDelete} onItemToggleComplete={this.handleToggleComplete} onItemEdit={this.handleItemEdit()} />
 
         <ListHeader label="Completed"/>
         <List items={completedTodos} itemComponent={TodoItem} onItemToggleArchive={this.handleToggleArchive} onItemDelete={this.handleDelete} onItemToggleComplete={this.handleToggleComplete} />
