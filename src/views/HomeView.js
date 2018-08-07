@@ -5,7 +5,8 @@ import styled from 'styled-components'
 import { lighten } from 'polished'
 
 import { ms } from 'styles/helpers'
-import { ActiveTodosList, ArchivedTodosList, SearchForm, SearchTodosList } from 'containers'
+import { SearchForm } from 'containers'
+import { ActiveTodosView, ArchivedTodosView, SearchTodosView } from 'views'
 import { historyShape, matchShape } from 'constants/Shapes'
 
 const Container = styled.main`
@@ -77,9 +78,9 @@ class HomeView extends Component {
           </Header>
 
           <Switch>
-            <Route path={`/${ACTIVE}`} exact component={ActiveTodosList} />
-            <Route path={`/${ARCHIVED}`} exact component={ArchivedTodosList} />
-            <Route path={`/search`} exact component={SearchTodosList} />
+            <Route path={`/${ACTIVE}`} exact component={ActiveTodosView} />
+            <Route path={`/${ARCHIVED}`} exact component={ArchivedTodosView} />
+            <Route path={`/search`} exact component={SearchTodosView} />
           </Switch>
         </TodosWrapper>
       </Container>

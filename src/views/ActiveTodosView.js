@@ -5,7 +5,8 @@ import { connect } from 'react-redux'
 import T from 'prop-types'
 import uuid from 'uuid/v4'
 
-import { List, ListHeader, TodoItem, AddTodoForm } from 'components'
+import { ListHeader, AddTodoForm } from 'components'
+import { UncompletedTodosList, CompletedTodosList } from 'containers'
 import * as TodosActions from 'actions/todos'
 import { getCompletedTodos, getUncompletedTodos } from 'reducers/todos'
 import { todoShape } from 'constants/Shapes'
@@ -38,15 +39,11 @@ const filters = {
   UNCOMPLETED: 'uncompleted'
 }
 
-class ActiveTodosList extends Component {
+class ActiveTodosView extends Component {
   static propTypes = {
     uncompletedTodos: T.arrayOf(todoShape).isRequired,
     completedTodos: T.arrayOf(todoShape).isRequired,
     addTodo: T.func.isRequired,
-    deleteTodo: T.func.isRequired,
-    editTodo: T.func.isRequired,
-    toggleCompleteTodo: T.func.isRequired,
-    toggleArchiveTodo: T.func.isRequired,
   }
 
   state = {
@@ -58,22 +55,6 @@ class ActiveTodosList extends Component {
       name,
       id: uuid(),
     })
-  }
-
-  handleToggleComplete = id => {
-    this.props.toggleCompleteTodo({id})
-  }
-
-  handleToggleArchive = id => {
-    this.props.toggleArchiveTodo({id})
-  }
-
-  handleItemDelete = id => {
-    this.props.deleteTodo({id})
-  }
-
-  handleItemEdit = (id, newName) => {
-    this.props.editTodo({id, newName})
   }
 
   handleFilter = filter => {
@@ -97,22 +78,14 @@ class ActiveTodosList extends Component {
         {(filter === filters.UNCOMPLETED || filter === filters.ALL) && (
          <Fragment>
            <ListHeader label="Uncompleted" />
-           <List items={uncompletedTodos}
-                 itemComponent={TodoItem}
-                 onItemToggleComplete={this.handleToggleComplete}
-                 onItemDelete={this.handleItemDelete}
-                 onItemEdit={this.handleItemEdit} />
+           <UncompletedTodosList items={uncompletedTodos} />
            <AddTodoForm onAddTodo={this.handleAddTodo} />
          </Fragment>
         )}
         {(filter === filters.COMPLETED || filter === filters.ALL) && (
           <Fragment>
             <ListHeader label="Completed" />
-            <List items={completedTodos}
-                  itemComponent={TodoItem}
-                  onItemToggleComplete={this.handleToggleComplete}
-                  onItemToggleArchive={this.handleToggleArchive}
-                  onItemDelete={this.handleItemDelete}/>
+            <CompletedTodosList items={completedTodos}/>
           </Fragment>
         )}
       </Fragment>
@@ -129,4 +102,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(TodosActions, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ActiveTodosList)
+export default connect(mapStateToProps, mapDispatchToProps)(ActiveTodosView)

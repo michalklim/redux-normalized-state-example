@@ -1,4 +1,5 @@
-export { default as ActiveTodosList} from './ActiveTodosList'
+export { default as UncompletedTodosList} from './UncompletedTodosList'
+export { default as CompletedTodosList} from './CompletedTodosList'
 export { default as ArchivedTodosList} from './ArchivedTodosList'
 export { default as SearchForm } from './SearchForm'
 export { default as SearchTodosList } from './SearchTodosList'

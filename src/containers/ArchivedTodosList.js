@@ -1,18 +1,15 @@
-import React, { Fragment } from 'react'
-import { bindActionCreators, compose } from 'redux'
+import React from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import T from 'prop-types'
-import {withRouter} from 'react-router-dom'
 
-import { List, TodoItem, ListHeader } from 'components'
-import { ARCHIVED } from 'constants/TodosStatuses'
+import { List, TodoItem } from 'components'
 import * as TodosActions from 'actions/todos'
-import { getFilteredTodos } from 'reducers/todos'
 import { todoShape } from 'constants/Shapes'
 
-class ArchivedTodoList extends React.Component {
+class ArchivedTodosList extends React.Component {
   static propTypes = {
-    todos: T.arrayOf(todoShape).isRequired,
+    items: T.arrayOf(todoShape).isRequired,
     deleteTodo: T.func.isRequired,
     toggleArchiveTodo: T.func.isRequired,
   }
@@ -26,23 +23,20 @@ class ArchivedTodoList extends React.Component {
   }
 
   render() {
-    const { todos } = this.props
+    const { items } = this.props
 
     return (
-      <Fragment>
-        <ListHeader label="All Archived"/>
-        <List items={todos} itemComponent={TodoItem} onItemToggleArchive={this.handleToggleArchive} onItemDelete={this.handleDelete} />
-      </Fragment>
+       <List items={items}
+             itemComponent={TodoItem}
+             onItemToggleArchive={this.handleToggleArchive}
+             onItemDelete={this.handleDelete} />
     )
   }
 }
 
-const mapStateToProps = (state) => ({
-  todos: getFilteredTodos(state, ARCHIVED)
-})
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(TodosActions, dispatch)
 }
 
-export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(ArchivedTodoList)
+export default connect(null, mapDispatchToProps)(ArchivedTodosList)
