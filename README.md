@@ -15,7 +15,7 @@ I wanted to try out state normalization. This app is directly based on Dan Abram
 posted on egghead.io part [Redux: Normalizing the State Shape](https://egghead.io/lessons/javascript-redux-normalizing-the-state-shape)
 
 Also it serves as complementary example to presentation on [ReactUp #9](https://www.facebook.com/events/2222378571125684) I gave about state normalization. 
-You can find [presentation](https://github.com/michalklim/redux-normalized-state-example/blob/redux-normalized-state-presentation.pdf) in this repo and also video from it is coming in a short time
+You can find [presentation](https://github.com/michalklim/redux-normalized-state-example/blob/master/redux-normalized-state-presentation.pdf) in this repo and also video from it is coming in a short time
 
 ## Usage
 
