@@ -92,7 +92,7 @@ class HomeView extends Component {
     return (
       <Container>
         <Wrapper>
-          <Title>Venture Devs Todo app</Title>
+          <Title>Redux normalized state example</Title>
           <TodosWrapper>
             <SearchForm />
 
